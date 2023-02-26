@@ -26,7 +26,7 @@ public class CourseFormat extends BaseEntity {
         this.durationInWeek = durationInWeek;
     }
 
-    public boolean isOnline() {
+    public boolean getisOnline() {
         return isOnline;
     }
 

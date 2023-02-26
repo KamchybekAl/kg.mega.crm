@@ -1,11 +1,8 @@
-import dao.ManagerDao;
-import dao.MentorDao;
-import dao.impl.ManagerDaoImpl;
-import dao.impl.MentorDaoImpl;
-import dao.impl.StudentDao;
-import dao.impl.StudentDaoImpl;
+import dao.*;
+import dao.impl.*;
 import model.*;
 
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.util.Arrays;
 
 public class Main {
@@ -54,6 +51,36 @@ public class Main {
         Mentor[]mentors= mentorDao.findAll();
         System.out.println(Arrays.toString(mentors));
 
+
+
+
+        GroupDao groupDao = new GroupDaoImpl();
+        Group group = new Group();
+
+        group.setId(1);
+        group.setName("Java");
+        group.setStartTime("45.54.45");
+
+        groupDao.save(group);
+        Group[]groups = groupDao.findAll();
+        System.out.println(Arrays.toString(groups));
+
+
+        CourseFormatDao courseFormatDao = new CourseFormatDaoImpl();
+        CourseFormat courseFormat = new CourseFormat();
+
+        courseFormat.setId(1);
+        courseFormat.setFormat("Bootcamp");
+        courseFormat.setDurationInWeek(18);
+        courseFormat.setOnline(true);
+        courseFormat.setLessonCountPerWeek(5);
+        courseFormat.setLessonDuration(3);
+
+        courseFormatDao.save(courseFormat);
+        CourseFormat[]courseFormats = courseFormatDao.findAll();
+        System.out.println(Arrays.toString(courseFormats));
+
+
         StudentDao studentDao = new StudentDaoImpl();
         Student student = new Student();
 
@@ -63,9 +90,11 @@ public class Main {
         student.setEmail("neknazarov@gmail.com");
         student.setPhone("0111800002");
         student.setDateOfBirth("1986-05-12");
-        studentDao.save(student);
-        Student[]students = studentDao.findAll();
-        System.out.println(Arrays.toString(students));
+//        studentDao.save(student);
+//        Student[]students = studentDao.findAll();
+//        System.out.println(Arrays.toString(students));
+
+
 
 
 
