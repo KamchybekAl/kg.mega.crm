@@ -90,9 +90,9 @@ public class Main {
         student.setEmail("neknazarov@gmail.com");
         student.setPhone("0111800002");
         student.setDateOfBirth("1986-05-12");
-//        studentDao.save(student);
-//        Student[]students = studentDao.findAll();
-//        System.out.println(Arrays.toString(students));
+        studentDao.save(student);
+        Student[]students = studentDao.findAll();
+        System.out.println(Arrays.toString(students));
 
 
 
