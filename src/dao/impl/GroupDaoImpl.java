@@ -27,9 +27,10 @@ public class GroupDaoImpl implements GroupDao {
         }
     }
     @Override
-    public void save(Group group) {
+    public void save(Group group) throws IOException {
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
+            printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
             printWriter.print(group.getId() + " ");
             printWriter.print(group.getName() + " ");
             printWriter.print(group.getRoom() + " ");
@@ -42,16 +43,20 @@ public class GroupDaoImpl implements GroupDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(printWriter);
         }
 
     }
 
     @Override
-    public Group[] findAll() {
-        Group[] groups = new Group[100];
+    public Group[] findAll() throws IOException {
+        int count = getCount();
 
+        Group[] groups = new Group[count];
+        Scanner scanner = null;
         try {
-            Scanner scanner = new Scanner(GROUP_FILE);
+            scanner = new Scanner(GROUP_FILE);
             for (int i = 0; scanner.hasNextLine(); i++) {
                 Group group = new Group();
 
@@ -68,11 +73,31 @@ public class GroupDaoImpl implements GroupDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(scanner);
         }
 
 
         return groups;
     }
 
- }
+    private int getCount() {
+        int count =0;
+        try {
+            Scanner scan = new Scanner(GROUP_FILE);
+            while (scan.hasNextLine()){
+                count ++;
+                scan.nextLine();
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return count;
+    }
+
+}
 

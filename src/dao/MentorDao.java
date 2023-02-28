@@ -2,10 +2,12 @@ package dao;
 
 import model.Mentor;
 
-public interface MentorDao {
+import java.io.IOException;
 
-    void save (Mentor mentor);
+public interface MentorDao extends CrudDao {
 
-    Mentor [] findAll();
+    void save (Mentor mentor) throws IOException;
+
+    Mentor [] findAll() throws IOException;
 }
 

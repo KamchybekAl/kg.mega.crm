@@ -22,11 +22,4 @@ public abstract class BaseEntity {
         this.dateTimeCreated = dateTimeCreated;
     }
 
-    @Override
-    public String toString() {
-        return "BaseEntity{" +
-                "id=" + id +
-                ", dateTimeCreated=" + dateTimeCreated +
-                '}';
-    }
 }

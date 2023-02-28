@@ -27,9 +27,10 @@ public class ManagerDaoImpl implements ManagerDao {
     }
 
     @Override
-    public void save(Manager manager) {
+    public void save(Manager manager) throws IOException {
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
+            printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
             printWriter.print(manager.getId() + " ");
             printWriter.print(manager.getName() + " ");
             printWriter.print(manager.getSurName() + " ");
@@ -43,16 +44,21 @@ public class ManagerDaoImpl implements ManagerDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(printWriter);
         }
 
     }
 
     @Override
-    public Manager[] findAll() {
-        Manager[] managers = new Manager[100];
+    public Manager[] findAll() throws IOException {
 
+        //int count = getCount();
+        int count = getCount();
+        Manager[] managers = new Manager[count];
+        Scanner  scanner = null;
         try {
-            Scanner scanner = new Scanner(MANAGER_FILE);
+            scanner = new Scanner(MANAGER_FILE);
             for (int i = 0; scanner.hasNextLine(); i++) {
                 Manager manager = new Manager();
 
@@ -70,10 +76,28 @@ public class ManagerDaoImpl implements ManagerDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(scanner);
         }
 
 
         return managers;
+    }
+
+    private int getCount() {
+        int count = 0;
+        try {
+            Scanner scan = new Scanner(MANAGER_FILE);
+
+            while (scan.hasNextLine()) {
+                count++;
+                scan.nextLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 
 }

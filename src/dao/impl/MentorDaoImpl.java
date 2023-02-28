@@ -1,8 +1,8 @@
 package dao.impl;
-import dao.ManagerDao;
+
 import dao.MentorDao;
-import model.Manager;
 import model.Mentor;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -26,9 +26,10 @@ public class MentorDaoImpl implements MentorDao {
     }
 
     @Override
-    public void save(Mentor mentor) {
+    public void save(Mentor mentor) throws IOException {
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
+            printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
             printWriter.print(mentor.getId() + " ");
             printWriter.print(mentor.getName() + " ");
             printWriter.print(mentor.getSurName() + " ");
@@ -39,23 +40,27 @@ public class MentorDaoImpl implements MentorDao {
             printWriter.print(mentor.getDateTimeCreated().toString().substring(0, 22));
             printWriter.println();
 
-            printWriter.close();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            Closeable PrintWriter;
+            close(printWriter);
         }
 
     }
 
     @Override
-    public Mentor[] findAll() {
-        Mentor[] mentors = new Mentor[100];
+    public Mentor[] findAll() throws IOException {
 
+        int count = getCount();
+        Mentor[] mentors = new Mentor[count];
+        Scanner scanner = null;
         try {
-            Scanner scanner = new Scanner(MENTOR_FILE);
+             scanner = new Scanner(MENTOR_FILE);
             for (int i = 0; scanner.hasNextLine(); i++) {
                 Mentor mentor = new Mentor();
-
                 mentor.setId(scanner.nextLong());
                 mentor.setName(scanner.next());
                 mentor.setSurName(scanner.next());
@@ -71,10 +76,29 @@ public class MentorDaoImpl implements MentorDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            close(scanner);
+
+        }
+
+        return mentors;
+    }
+
+    private int getCount() {
+        int count = 0;
+        try {
+            Scanner scan = new Scanner(MENTOR_FILE);
+            while (scan.hasNextLine()){
+                count ++;
+                scan.nextLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
 
-        return mentors;
+        return count;
     }
 
 }

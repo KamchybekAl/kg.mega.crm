@@ -12,6 +12,8 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
     private final String PATH_FILE = "D:\\Users\\kalzhanbaev\\JavaPractice\\WorkSpace\\kg.mega.crm\\lib\\CourceForme.txt";
     private final File COURSE_FOR_FILE = new File(PATH_FILE);
 
+    private int count =0;
+
     public CourseFormatDaoImpl() {
         boolean isCreated = false;
         if (!COURSE_FOR_FILE.exists()) {
@@ -26,10 +28,12 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
         }
     }
     @Override
-    public void save(CourseFormat courseFormat) {
+    public void save(CourseFormat courseFormat) throws IOException {
+        count = getCount();
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
-            printWriter.print(courseFormat.getId() + " ");
+            printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
+            printWriter.print(++ count + " ");
             printWriter.print(courseFormat.getFormat() + " ");
             printWriter.print(courseFormat.getDurationInWeek() + " ");
             printWriter.print(courseFormat.getisOnline() + " ");
@@ -42,16 +46,19 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            close(printWriter);
         }
 
     }
 
     @Override
-    public CourseFormat[] findAll() {
-        CourseFormat[] courseFormats = new CourseFormat[100];
+    public CourseFormat[] findAll() throws IOException {
 
+        CourseFormat[] courseFormats = new CourseFormat[count];
+        Scanner scanner = null;
         try {
-            Scanner scanner = new Scanner(COURSE_FOR_FILE);
+            scanner = new Scanner(COURSE_FOR_FILE);
             for (int i = 0; scanner.hasNextLine(); i++) {
                 CourseFormat courseFormat = new CourseFormat();
 
@@ -69,12 +76,32 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(scanner);
         }
 
 
         return courseFormats;
     }
 
+    private int getCount() {
+
+        int count = 0;
+        try {
+            Scanner scan = new Scanner(COURSE_FOR_FILE);
+            while (scan.hasNextLine()){
+                count ++;
+
+                scan.nextLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return count;
+    }
 
 
 }

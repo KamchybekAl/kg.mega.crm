@@ -1,12 +1,15 @@
 import dao.*;
 import dao.impl.*;
+import enums.Command;
+import enums.exception.WrongCommandException;
 import model.*;
 
-import javax.swing.plaf.basic.BasicGraphicsUtils;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
       /*  Course course = new Course();
         course.setId(1);
@@ -35,8 +38,8 @@ public class Main {
         manager.setPhone("0777900002");
         manager.setSalary(78000.0);  // Как сделать, чтобы пердовлась запятая вместо точки ?
         //managerDao.save(manager);
-        Manager[]managers = managerDao.findAll();
-        System.out.println(Arrays.toString(managers));
+        //Manager[]managers = managerDao.findAll();
+        //System.out.println(Arrays.toString(managers));
 
         MentorDao mentorDao = new MentorDaoImpl();
         Mentor mentor = new Mentor();
@@ -47,9 +50,23 @@ public class Main {
         mentor.setPhone("0999800002");
         mentor.setExperience(4.0);
         mentor.setSalaryForLesson(1200.0);
-        mentorDao.save(mentor);
-        Mentor[]mentors= mentorDao.findAll();
-        System.out.println(Arrays.toString(mentors));
+//        mentorDao.save(mentor);
+//        Mentor[]mentors= mentorDao.findAll();
+//        System.out.println(Arrays.toString(mentors));
+
+
+        StudentDao studentDao = new StudentDaoImpl();
+        Student student = new Student();
+
+        student.setId(1);
+        student.setName("Bek");
+        student.setSurName("Nazarpv");
+        student.setEmail("neknazarov@gmail.com");
+        student.setPhone("0111800002");
+        student.setDateOfBirth("1986-05-12");
+//        studentDao.save(student);
+//        Student[]students = studentDao.findAll();
+//        System.out.println(Arrays.toString(students));
 
 
 
@@ -59,6 +76,7 @@ public class Main {
 
         group.setId(1);
         group.setName("Java");
+        group.setRoom("8");
         group.setStartTime("45.54.45");
 
         groupDao.save(group);
@@ -81,18 +99,57 @@ public class Main {
         System.out.println(Arrays.toString(courseFormats));
 
 
-        StudentDao studentDao = new StudentDaoImpl();
-        Student student = new Student();
 
-        student.setId(1);
-        student.setName("Bek");
-        student.setSurName("Nazarpv");
-        student.setEmail("neknazarov@gmail.com");
-        student.setPhone("0111800002");
-        student.setDateOfBirth("1986-05-12");
-        studentDao.save(student);
-        Student[]students = studentDao.findAll();
-        System.out.println(Arrays.toString(students));
+        Scanner scanner =new Scanner(System.in);
+        loop:
+        while (true){
+            System.out.println("--------------------------");
+            System.out.println("Do next action");
+            System.out.println("SAVE to downlod object to tetDB");
+            System.out.println("FINDALL to print table ");
+
+            Command command = null;
+
+            try {
+
+                command = Command.valueOf(scanner.nextLine());
+            } catch (Exception e){
+                throw  new WrongCommandException("WRONG COMMAD !!") ;
+            }
+
+            if (command != null) {
+
+                switch (command) {
+                    case SAVE: {
+                        managerDao.save(manager);
+                        mentorDao.save(mentor);
+                        studentDao.save(student);
+                        groupDao.save(group);
+                        courseFormatDao.save(courseFormat);
+                        System.out.println("Data saved");
+                        break loop;
+                    }
+                    case FINDALL: {
+                        Manager[] managers = managerDao.findAll();
+                        System.out.println(Arrays.toString(managers));
+                        Mentor[] mentors = mentorDao.findAll();
+                        System.out.println(Arrays.toString(mentors));
+                        Student[] students = studentDao.findAll();
+                        System.out.println(Arrays.toString(students));
+                        Group[] groups1 = groupDao.findAll();
+                        System.out.println(Arrays.toString(groups1));
+                        CourseFormat[]courseFormats1 = courseFormatDao.findAll();
+                        System.out.println(Arrays.toString(courseFormats1));
+
+
+                        System.out.println("all table showed");
+                        break loop;
+                    }
+                }
+
+            }
+        }
+
 
 
 

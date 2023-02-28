@@ -26,9 +26,10 @@ public class StudentDaoImpl implements StudentDao {
         }
     }
     @Override
-    public void save(Student student) {
+    public void save(Student student) throws IOException {
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
+            printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
             printWriter.print(student.getId() + " ");
             printWriter.print(student.getName() + " ");
             printWriter.print(student.getSurName() + " ");
@@ -42,16 +43,21 @@ public class StudentDaoImpl implements StudentDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(printWriter);
         }
 
     }
 
     @Override
-    public Student[] findAll() {
-        Student[] students = new Student[100];
+    public Student[] findAll() throws IOException {
 
+        int count = getCount();
+
+        Student[] students = new Student[count];
+        Scanner scanner = null;
         try {
-            Scanner scanner = new Scanner(STUDENT_FILE);
+            scanner = new Scanner(STUDENT_FILE);
             for (int i = 0; scanner.hasNextLine(); i++) {
                 Student student = new Student();
 
@@ -69,10 +75,30 @@ public class StudentDaoImpl implements StudentDao {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            close(scanner);
         }
 
 
         return students;
+    }
+
+    private int getCount() {
+        int count = 0;
+
+
+        try {
+            Scanner scan = new Scanner(STUDENT_FILE);
+            while (scan.hasNextLine()){
+                count ++;
+                scan.nextLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return count;
     }
 
 }

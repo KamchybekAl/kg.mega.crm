@@ -2,9 +2,11 @@ package dao;
 
 import model.Student;
 
-public interface StudentDao {
+import java.io.IOException;
 
-    void save(Student student);
+public interface StudentDao extends CrudDao {
 
-    Student[] findAll();
+    void save(Student student) throws IOException;
+
+    Student[] findAll() throws IOException;
 }
