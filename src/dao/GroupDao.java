@@ -2,12 +2,10 @@ package dao;
 
 import model.Group;
 
-import java.io.IOException;
-
 public interface GroupDao extends CrudDao{
 
-    void save(Group group) throws IOException;
+    void save(Group group);
 
-    Group [] findAll() throws IOException;
+    Group [] findAll() ;
 
 }

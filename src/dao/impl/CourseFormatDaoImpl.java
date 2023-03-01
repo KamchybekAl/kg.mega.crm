@@ -28,7 +28,7 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
         }
     }
     @Override
-    public void save(CourseFormat courseFormat) throws IOException {
+    public void save(CourseFormat courseFormat) {
         count = getCount();
         PrintWriter printWriter = null;
         try {
@@ -53,7 +53,7 @@ public class CourseFormatDaoImpl implements CourseFormatDao {
     }
 
     @Override
-    public CourseFormat[] findAll() throws IOException {
+    public CourseFormat[] findAll()  {
 
         CourseFormat[] courseFormats = new CourseFormat[count];
         Scanner scanner = null;

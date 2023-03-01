@@ -2,13 +2,11 @@ package dao;
 
 import model.CourseFormat;
 
-import java.io.IOException;
-
 public interface CourseFormatDao extends CrudDao {
 
-    void save(CourseFormat courseFormat) throws IOException;
+    void save(CourseFormat courseFormat) ;
 
-    CourseFormat[] findAll() throws IOException;
+    CourseFormat[] findAll();
 
 }
 

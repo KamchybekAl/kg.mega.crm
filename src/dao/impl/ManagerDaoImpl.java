@@ -27,7 +27,7 @@ public class ManagerDaoImpl implements ManagerDao {
     }
 
     @Override
-    public void save(Manager manager) throws IOException {
+    public void save(Manager manager)  {
         PrintWriter printWriter = null;
         try {
             printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
@@ -51,7 +51,7 @@ public class ManagerDaoImpl implements ManagerDao {
     }
 
     @Override
-    public Manager[] findAll() throws IOException {
+    public Manager[] findAll()  {
 
         //int count = getCount();
         int count = getCount();

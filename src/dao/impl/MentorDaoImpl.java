@@ -26,7 +26,7 @@ public class MentorDaoImpl implements MentorDao {
     }
 
     @Override
-    public void save(Mentor mentor) throws IOException {
+    public void save(Mentor mentor) {
         PrintWriter printWriter = null;
         try {
             printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
@@ -45,14 +45,13 @@ public class MentorDaoImpl implements MentorDao {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
-            Closeable PrintWriter;
             close(printWriter);
         }
 
     }
 
     @Override
-    public Mentor[] findAll() throws IOException {
+    public Mentor[] findAll() {
 
         int count = getCount();
         Mentor[] mentors = new Mentor[count];

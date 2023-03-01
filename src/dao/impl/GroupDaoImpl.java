@@ -27,7 +27,7 @@ public class GroupDaoImpl implements GroupDao {
         }
     }
     @Override
-    public void save(Group group) throws IOException {
+    public void save(Group group) {
         PrintWriter printWriter = null;
         try {
             printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
@@ -50,7 +50,7 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public Group[] findAll() throws IOException {
+    public Group[] findAll() {
         int count = getCount();
 
         Group[] groups = new Group[count];

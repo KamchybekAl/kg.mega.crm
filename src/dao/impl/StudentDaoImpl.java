@@ -26,7 +26,7 @@ public class StudentDaoImpl implements StudentDao {
         }
     }
     @Override
-    public void save(Student student) throws IOException {
+    public void save(Student student)  {
         PrintWriter printWriter = null;
         try {
             printWriter = new PrintWriter(new FileOutputStream(PATH_FILE, true));
@@ -50,7 +50,7 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student[] findAll() throws IOException {
+    public Student[] findAll() {
 
         int count = getCount();
 
